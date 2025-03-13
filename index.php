@@ -1,5 +1,5 @@
 <?php
-    include "connection.php";
+    include "./php/connection.php";
 ?>
 
 <!DOCTYPE html>
@@ -18,9 +18,38 @@
 </head>
 <body>
     
+    <h1 class="bg-primary text-white text-center p-3"> ELIMINAZIONE DI RECENSIONI </h1>
+
+    
+    <?php
+
+        $query_review = "SELECT F.titolo AS titolo, R.* FROM recensioni R INNER JOIN film F ON R.CodFilm = F.CodFilm";
+
+        if(!$result = $conn->query($query_review)) {
+            echo "Errore nella query";
+            exit();
+        }
+
+    ?>
 
 
+    <table class="w-75 mx-auto my-3 rounded-3">
 
+        <?php
+            if($result->num_rows > 0) {
+
+            echo "<tr>";
+            while($field = $result->fetch_field()) {
+                echo "<th> $field </th>";
+            }
+            echo "</tr>";
+
+            } else {
+                echo "<p> Nessuna recensione presente nel DB </p>";
+            }
+        ?>
+        
+    </table>
 
 
 
