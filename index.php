@@ -32,27 +32,41 @@
 
     ?>
 
+    <form action="./php/delete_review.php" method="post">    
+        <table class="table w-75 mx-auto my-3 rounded-3">
 
-    <table class="w-75 mx-auto my-3 rounded-3">
+            <?php
+                if($result->num_rows > 0) {
 
-        <?php
-            if($result->num_rows > 0) {
+                echo "<tr class='fs-3'> ";
+                while($field = $result->fetch_field()) {
+                    if($field->name != "IDRecensione") {
+                        echo "<th> $field->name </th>";
+                    }
+                }
+                echo "<th class='text-center bg-warning-subtle'> ELIMINA </th>";
+                echo "</tr>";
 
-            echo "<tr>";
-            while($field = $result->fetch_field()) {
-                echo "<th> $field </th>";
-            }
-            echo "</tr>";
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    foreach($row as $field_name => $value) {
+                        if($field_name != "IDRecensione") {
+                            echo "<td> $value </td>";
+                        }
+                    }
+                    echo "<td class=' text-center bg-warning-subtle'> <input type='checkbox' name='choiceReview[]' value='$row[IDRecensione]'> </td>";
+                }
 
-            } else {
-                echo "<p> Nessuna recensione presente nel DB </p>";
-            }
-        ?>
-        
-    </table>
-
-
-
+                } else {
+                    echo "<p> Nessuna recensione presente nel DB </p>";
+                }
+            ?>
+            
+        </table>
+        <div class="d-flex justify-content-center w-100 mb-3">
+            <button type="submit" class="btn btn-danger fs-3"> ELIMINA SELEZIONATE </button>
+        </div>
+    </form>
     <!--? SCRIPT DI BOOTSTRAP-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <!--? JAVASCRIPT PERSONALE-->
